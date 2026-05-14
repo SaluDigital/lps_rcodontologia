@@ -723,7 +723,7 @@ img { max-width: 100%; display: block; }
   padding: 0 8px;
 }
 .review__card {
-  min-height: 258px;
+  min-height: 324px;
   height: 100%;
   background: #ffffff;
   border: 1px solid rgba(15, 15, 13, 0.14);
@@ -810,11 +810,11 @@ img { max-width: 100%; display: block; }
   margin: 0;
   font-family: var(--font-text);
   font-weight: 400;
-  font-size: clamp(18px, 1.45vw, 20px);
-  line-height: 1.38;
+  font-size: clamp(16px, 1.2vw, 18px);
+  line-height: 1.48;
   letter-spacing: -0.02em;
   color: #141414;
-  max-width: 28ch;
+  max-width: none;
 }
 @media (max-width: 1080px) {
   .reviews-carousel__btn:first-child { left: -12px; }
@@ -822,7 +822,7 @@ img { max-width: 100%; display: block; }
 }
 @media (max-width: 700px) {
   .review__card {
-    min-height: 236px;
+    min-height: 280px;
     padding: 20px 18px 18px;
     border-radius: 16px;
   }
@@ -831,7 +831,7 @@ img { max-width: 100%; display: block; }
   }
   .review .quote {
     max-width: none;
-    font-size: 17px;
+    font-size: 16px;
   }
   .reviews-carousel__nav {
     display: flex;

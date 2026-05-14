@@ -4,7 +4,6 @@ const { useState: uS, useEffect: uE } = React;
 const stripIdx = (s) => (s || '').replace(/^\s*\d+\s*\/\s*/, '');
 const WHATSAPP_URL = "https://api.whatsapp.com/send?phone=5541998069893&text=Ol%C3%A1,%20vim%20do%20site%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es";
 const REVIEWS_URL = "https://www.google.com/search?q=rc+odontologia+integrada#lrd=0x94dce1c3ec53d02f:0xc545acd00e31deaf,1";
-const CONTACT_EMAILS = ["rcodontologiaintegrada@gmail.com", "rogeriosac@gmail.com"];
 
 function Eyebrow({ children, light }) {
   return (
@@ -25,14 +24,6 @@ function HeaderV2() {
             className="brand__logo"
           />
         </a>
-        <nav className="site-nav">
-          <a href="#manutencao">Tratamento</a>
-          <a href="#reviews">Avaliações</a>
-          <a href="#aparelhos">Aparelhos</a>
-          <a href="#clinica">Clínica</a>
-          <a href="#equipe">Equipe</a>
-          <a href="#faq">Dúvidas</a>
-        </nav>
         <a href={WHATSAPP_URL} className="btn btn--emerald" style={{padding:'12px 18px', fontSize:13}} target="_blank" rel="noreferrer">
           Avaliar meu caso <span className="arrow" />
         </a>
@@ -185,10 +176,11 @@ function ManutencaoV2({ d }) {
 }
 
 function ReviewsV2({ d }) {
+  const avatarTones = ["#7A57C8", "#7A4C34", "#8AA0AF", "#4F7A5B", "#A1658C", "#6F88D8", "#7C8B58"];
   const getVisibleCards = () => {
     if (window.innerWidth <= 700) return 1;
-    if (window.innerWidth <= 1080) return 2;
-    return 3;
+    if (window.innerWidth <= 1080) return Math.min(2, d.items.length);
+    return Math.min(3, d.items.length);
   };
 
   const [active, setActive] = uS(0);
@@ -220,6 +212,10 @@ function ReviewsV2({ d }) {
     });
   }
 
+  function getInitial(name) {
+    return (name || "?").trim().charAt(0).toUpperCase();
+  }
+
   return (
     <section className="section" id="reviews">
       <div className="container">
@@ -229,39 +225,57 @@ function ReviewsV2({ d }) {
           caption={<>
             {d.intro}
             <div className="google-pill">
-              <span className="stars">★★★★★</span> Avaliações reais — Doctoralia
+              <span className="stars">★★★★★</span> Avaliações reais — Google
             </div>
           </>}
         />
-        <div className="reviews-carousel" style={{ "--reviews-visible": visibleCards }}>
-          <div className="reviews-carousel__top">
-            <div className="reviews-carousel__count">{String(active + 1).padStart(2, '0')} / {String(maxIndex + 1).padStart(2, '0')}</div>
-            <div className="reviews-carousel__nav">
-              <button type="button" className="reviews-carousel__btn" onClick={() => go(-1)} aria-label="Depoimento anterior">←</button>
-              <button type="button" className="reviews-carousel__btn" onClick={() => go(1)} aria-label="Próximo depoimento">→</button>
-            </div>
-          </div>
+        <div className="reviews-carousel reviews-carousel--google" style={{ "--reviews-visible": visibleCards }}>
           <div className="reviews-window">
             <div className="reviews-track" style={{ transform: `translateX(-${active * (100 / visibleCards)}%)` }}>
               {d.items.map((r, i) => (
                 <div className="review" key={i}>
-                  <span className="stars">{'★'.repeat(r.stars)}</span>
-                  <p className="quote">"{r.text}"</p>
-                  <div className="meta"><span className="name">{r.name}</span><span>{r.time}</span></div>
+                  <div className="review__card">
+                    <div className="review__head">
+                      <div className="review__identity">
+                        <span
+                          className="review__avatar"
+                          style={{ background: avatarTones[i % avatarTones.length] }}
+                          aria-hidden="true"
+                        >
+                          {getInitial(r.name)}
+                        </span>
+                        <div className="review__person">
+                          <span className="review__name">{r.name}</span>
+                          <span className="review__time">{r.time}</span>
+                        </div>
+                      </div>
+                      <span className="review__google" aria-hidden="true">
+                        <svg viewBox="0 0 24 24">
+                          <path fill="#4285F4" d="M21.8 12.23c0-.72-.06-1.25-.2-1.8H12v3.39h5.64c-.11.84-.74 2.11-2.14 2.96l-.02.11 3.02 2.34.21.02c1.92-1.77 3.09-4.38 3.09-7.02Z" />
+                          <path fill="#34A853" d="M12 22c2.76 0 5.08-.91 6.77-2.47l-3.23-2.5c-.86.6-2.02 1.03-3.54 1.03-2.7 0-4.99-1.77-5.81-4.22l-.1.01-3.13 2.43-.03.1C4.61 19.68 8.03 22 12 22Z" />
+                          <path fill="#FBBC05" d="M6.19 13.84A6.08 6.08 0 0 1 5.86 12c0-.64.12-1.25.32-1.84l-.01-.12-3.17-2.47-.1.05A9.96 9.96 0 0 0 2 12c0 1.59.38 3.1 1.04 4.38l3.15-2.54Z" />
+                          <path fill="#EA4335" d="M12 5.94c1.92 0 3.21.83 3.95 1.53l2.88-2.81C17.07 3.03 14.76 2 12 2 8.03 2 4.61 4.31 2.94 7.62l3.28 2.54C7.04 7.71 9.3 5.94 12 5.94Z" />
+                        </svg>
+                      </span>
+                    </div>
+                    <div className="review__rating">
+                      <span className="stars">{'★'.repeat(r.stars)}</span>
+                      <span className="review__verified" aria-label="Avaliação verificada">
+                        <svg viewBox="0 0 20 20">
+                          <path fill="#4F86F7" d="M10 1.5 12.2 3l2.63-.2 1.36 2.26 2.3 1.28-.2 2.64L19.5 11l-1.5 2.2.2 2.63-2.26 1.36-1.28 2.3-2.64-.2L10 18.5 7.8 17l-2.63.2-1.36-2.26-2.3-1.28.2-2.64L.5 9l1.5-2.2-.2-2.63L4.06 2.8l1.28-2.3 2.64.2L10 1.5Z" />
+                          <path fill="#FFF" d="m8.54 12.9-2.1-2.1 1.02-1.02 1.08 1.08 3.23-3.23 1.02 1.02-4.25 4.25Z" />
+                        </svg>
+                      </span>
+                    </div>
+                    <p className="quote">{r.text}</p>
+                  </div>
                 </div>
               ))}
             </div>
           </div>
-          <div className="reviews-carousel__dots" aria-label="Navegação dos depoimentos">
-            {Array.from({ length: maxIndex + 1 }).map((_, i) => (
-              <button
-                key={i}
-                type="button"
-                className={`reviews-carousel__dot ${i === active ? 'reviews-carousel__dot--active' : ''}`}
-                onClick={() => setActive(i)}
-                aria-label={`Ir para depoimento ${i + 1}`}
-              />
-            ))}
+          <div className="reviews-carousel__nav">
+            <button type="button" className="reviews-carousel__btn" onClick={() => go(-1)} aria-label="Depoimento anterior">‹</button>
+            <button type="button" className="reviews-carousel__btn" onClick={() => go(1)} aria-label="Próximo depoimento">›</button>
           </div>
         </div>
       </div>
@@ -277,7 +291,7 @@ function PorqueV2({ d }) {
           <div className="porque__intro">
             <div style={{marginBottom:24}}><Eyebrow light>{stripIdx(d.eyebrow)}</Eyebrow></div>
             <h2 className="h-xl" style={{color:'var(--emerald-ink)', marginBottom:32}}>
-              Por que a avaliação<br/>vem <em className="hot" style={{fontStyle:'italic'}}>antes</em> do valor?
+              Por que a avaliação<br/>vem <em style={{fontStyle:'italic', color:'#EBE7DD'}}>antes</em> do valor?
             </h2>
             <div className="porque__body">
               {d.body.map((p, i) => <p key={i}>{p}</p>)}
@@ -398,7 +412,7 @@ function ClinicaV2({ d }) {
           </div>
           <div className="clinica__body">
             <div style={{marginBottom:16}}>
-              <span className="section-eyebrow section-eyebrow--light">
+              <span className="section-eyebrow section-eyebrow--light clinica-eyebrow">
                 <span className="section-eyebrow__mark" /> {stripIdx(d.eyebrow)}
               </span>
             </div>
@@ -478,7 +492,7 @@ function PagamentoV2({ d }) {
         <div className="pgto__grid">
           <div className="pgto__head">
             <div style={{marginBottom:16}}><Eyebrow light>{stripIdx(d.eyebrow)}</Eyebrow></div>
-            <h2 className="h-xl">Condições de <em className="hot" style={{fontStyle:'italic'}}>pagamento</em>.</h2>
+            <h2 className="h-xl">Condições de <em style={{fontStyle:'italic', color:'#EBE7DD'}}>pagamento</em>.</h2>
             <div className="pgto__intro">
               {d.body.map((p, i) => <p key={i}>{p}</p>)}
             </div>
@@ -514,118 +528,6 @@ function PagamentoV2({ d }) {
   );
 }
 
-function FormV2() {
-  const [name, setName] = uS("");
-  const [phone, setPhone] = uS("");
-  const [goal, setGoal] = uS("");
-  const [status, setStatus] = uS("");
-  const [done, setDone] = uS(false);
-
-  const goals = ["Alinhar os dentes", "Corrigir a mordida", "Avaliar aparelho para filho(a)", "Trocar ou voltar a usar aparelho", "Entender qual aparelho é indicado"];
-  const statuses = ["Ainda não", "Sim, mas não iniciei", "Já uso aparelho", "Já usei antes"];
-
-  const phoneDigits = phone.replace(/\D/g, "").slice(0, 11);
-  const valid = name.trim() && phoneDigits.length === 11 && goal && status;
-
-  function formatPhone(value) {
-    const digits = value.replace(/\D/g, "").slice(0, 11);
-    if (digits.length <= 2) return digits ? `(${digits}` : "";
-    if (digits.length <= 7) return `(${digits.slice(0, 2)}) ${digits.slice(2)}`;
-    return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`;
-  }
-
-  function handlePhoneChange(e) {
-    setPhone(formatPhone(e.target.value));
-  }
-
-  function submit(e) {
-    e.preventDefault();
-    if (!valid) return;
-    const subject = "Novo contato pelo site - Ortodontia";
-    const body = [
-      "Novo contato recebido pelo formulário do site.",
-      "",
-      `Nome: ${name}`,
-      `WhatsApp: ${phoneDigits}`,
-      `Interesse: ${goal}`,
-      `Situação atual: ${status}`,
-    ].join("\n");
-    const mailtoUrl = `mailto:${CONTACT_EMAILS.join(",")}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-
-    window.location.href = mailtoUrl;
-    setTimeout(() => window.open(WHATSAPP_URL, "_blank"), 700);
-    setDone(true);
-    setTimeout(() => setDone(false), 4000);
-  }
-
-  return (
-    <section className="section" id="form">
-      <div className="container">
-        <div className="form-wrap">
-          <div className="form-wrap__top">
-            <div style={{marginBottom:16}}><Eyebrow>Formulário</Eyebrow></div>
-            <h2 className="h-l">Conte rapidamente o que você deseja <em className="em">avaliar</em>.</h2>
-            <p className="lead">Antes de falar em manutenção, é importante entender o seu caso. As respostas chegam por WhatsApp à equipe da RC.</p>
-          </div>
-
-          <form className="form-wrap__body" onSubmit={submit}>
-            <div className="field-grid">
-              <div className="field-row">
-                <label className="field-row__label" htmlFor="v2-name">
-                  Nome <span className="req">*</span>
-                  <span className="field-row__hint">como podemos te chamar</span>
-                </label>
-                <input id="v2-name" className="input" placeholder="Seu nome" value={name} onChange={e => setName(e.target.value)} required />
-              </div>
-
-              <div className="field-row">
-                <label className="field-row__label" htmlFor="v2-phone">
-                  WhatsApp <span className="req">*</span>
-                  <span className="field-row__hint">com DDD</span>
-                </label>
-                <input id="v2-phone" className="input" placeholder="(00) 00000-0000" value={phone} onChange={handlePhoneChange} inputMode="numeric" maxLength={15} required />
-              </div>
-
-              <div className="field-row">
-                <span className="field-row__label">
-                  O que avaliar <span className="req">*</span>
-                  <span className="field-row__hint">escolha uma opção</span>
-                </span>
-                <div className="chips">
-                  {goals.map(g => (
-                    <button key={g} type="button" className={`chip ${goal === g ? 'chip--active' : ''}`} onClick={() => setGoal(g)}>{g}</button>
-                  ))}
-                </div>
-              </div>
-
-              <div className="field-row">
-                <span className="field-row__label">
-                  Situação <span className="req">*</span>
-                  <span className="field-row__hint">avaliação ortodôntica anterior</span>
-                </span>
-                <div className="chips">
-                  {statuses.map(s => (
-                    <button key={s} type="button" className={`chip ${status === s ? 'chip--active' : ''}`} onClick={() => setStatus(s)}>{s}</button>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            <div className="form-submit">
-              <button type="submit" className="btn btn--emerald" disabled={!valid} style={{opacity: valid ? 1 : 0.5, cursor: valid ? 'pointer' : 'not-allowed'}}>
-                Receber orientação pelo WhatsApp <span className="arrow" />
-              </button>
-              <p className="note">Ao enviar, abrimos uma conversa no WhatsApp com sua mensagem pronta. Seus dados são usados apenas para esta orientação.</p>
-            </div>
-          </form>
-        </div>
-
-        {done && <div className="toast"><span className="ok" /> Mensagem aberta no WhatsApp</div>}
-      </div>
-    </section>
-  );
-}
-
 function FAQV2({ d }) {
   const [open, setOpen] = uS(0);
   return (
@@ -651,29 +553,6 @@ function FAQV2({ d }) {
               </div>
             </div>
           ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function CTAFinalV2({ d }) {
-  return (
-    <section className="section section--ink cta-final">
-      <div className="cta-final__aurora" aria-hidden="true" />
-      <div className="cta-final__aurora-glow" aria-hidden="true" />
-      <div className="container">
-        <div style={{marginBottom: 'clamp(48px, 6vw, 80px)'}}>
-          <Eyebrow light>{stripIdx(d.eyebrow)}</Eyebrow>
-        </div>
-        <div className="cta-final__inner">
-          <h2>
-            Avalie o seu<br/>caso <span className="ital">— antes</span><br/>do orçamento.
-          </h2>
-          <div>
-            {d.body.map((p, i) => <p key={i}>{p}</p>)}
-            <a href={WHATSAPP_URL} className="btn btn--emerald" target="_blank" rel="noreferrer">{d.cta} <span className="arrow" /></a>
-          </div>
         </div>
       </div>
     </section>
@@ -742,11 +621,21 @@ function AppV2() {
         <ClinicaV2 d={D.clinica} />
         <ProfsV2 d={D.profissionais} />
         <PagamentoV2 d={D.pagamento} />
-        <FormV2 />
         <FAQV2 d={D.faq} />
-        <CTAFinalV2 d={D.ctaFinal} />
       </main>
       <FooterV2 />
+      <a
+        href={WHATSAPP_URL}
+        className="desktop-whatsapp-fab"
+        target="_blank"
+        rel="noreferrer"
+        aria-label="Falar no WhatsApp"
+      >
+        <svg viewBox="0 0 32 32" aria-hidden="true">
+          <path d="M19.11 17.28c-.27-.14-1.58-.78-1.83-.87-.24-.09-.42-.14-.6.14-.18.27-.69.87-.85 1.05-.15.18-.31.21-.58.07-.27-.14-1.12-.41-2.14-1.31-.79-.7-1.33-1.57-1.49-1.84-.15-.27-.02-.41.11-.55.12-.12.27-.31.4-.47.13-.15.18-.27.27-.46.09-.18.05-.34-.02-.48-.07-.14-.6-1.45-.82-1.99-.22-.52-.44-.45-.6-.46h-.51c-.18 0-.46.07-.7.34-.24.27-.92.9-.92 2.19 0 1.29.94 2.54 1.07 2.72.13.18 1.85 2.83 4.48 3.97.63.27 1.12.43 1.5.55.63.2 1.2.17 1.65.1.5-.08 1.58-.64 1.8-1.26.22-.62.22-1.15.15-1.26-.06-.11-.24-.18-.51-.32Z" fill="currentColor" />
+          <path d="M16.02 3.2c-7.08 0-12.8 5.72-12.8 12.79 0 2.26.59 4.47 1.71 6.42L3 29l6.75-1.77a12.8 12.8 0 0 0 6.27 1.61h.01c7.07 0 12.79-5.72 12.79-12.79 0-3.43-1.34-6.66-3.77-9.08A12.7 12.7 0 0 0 16.02 3.2Zm0 23.48h-.01a10.7 10.7 0 0 1-5.46-1.49l-.39-.23-4.01 1.05 1.07-3.91-.25-.4a10.62 10.62 0 0 1-1.63-5.71c0-5.9 4.8-10.7 10.7-10.7 2.86 0 5.55 1.11 7.57 3.13a10.64 10.64 0 0 1 3.13 7.57c0 5.9-4.8 10.7-10.69 10.7Z" fill="currentColor" />
+        </svg>
+      </a>
       <div className="sticky-cta">
         <a href={WHATSAPP_URL} className="btn btn--emerald" target="_blank" rel="noreferrer">Avaliar meu caso <span className="arrow" /></a>
       </div>

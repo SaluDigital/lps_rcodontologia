@@ -225,7 +225,7 @@ function ReviewsV2({ d }) {
           caption={<>
             {d.intro}
             <div className="google-pill">
-              <span className="stars">★★★★★</span> Avaliações reais — Doctoralia
+              <span className="stars">★★★★★</span> Avaliações reais — Google
             </div>
           </>}
         />
