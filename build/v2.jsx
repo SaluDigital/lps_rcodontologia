@@ -4,6 +4,8 @@ const { useState: uS, useEffect: uE } = React;
 const stripIdx = (s) => (s || '').replace(/^\s*\d+\s*\/\s*/, '');
 const WHATSAPP_URL = "https://api.whatsapp.com/send?phone=5541998069893&text=Ol%C3%A1,%20vim%20do%20site%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es";
 const REVIEWS_URL = "https://www.google.com/search?q=rc+odontologia+integrada#lrd=0x94dce1c3ec53d02f:0xc545acd00e31deaf,1";
+const HERO_NOTE = "RC Odontologia Integrada: desde 2004 cuidando de sorrisos em Curitiba.";
+const HERO_NOTE_DETAIL = "Mais de 20 anos de experiência na região de São Braz e Santa Felicidade.";
 
 function Eyebrow({ children, light }) {
   return (
@@ -19,7 +21,7 @@ function HeaderV2() {
       <div className="site-header__inner">
         <a href="#top" className="brand">
           <img
-            src="RC_Horizonta-Amarela-atualizada.png"
+            src="logo-redonda-atual.webp"
             alt="RC Odontologia Integrada"
             className="brand__logo"
           />
@@ -52,6 +54,9 @@ function HeroV2({ d }) {
                 <a href={WHATSAPP_URL} className="btn btn--emerald" target="_blank" rel="noreferrer">Quero avaliar meu caso <span className="arrow" /></a>
                 <a href="#manutencao" className="btn btn--ghost">Como funciona</a>
               </div>
+              <p className="hero__note">
+                <strong>{HERO_NOTE}</strong> {HERO_NOTE_DETAIL}
+              </p>
             </div>
           </div>
 
@@ -69,6 +74,9 @@ function HeroV2({ d }) {
                 <a href={WHATSAPP_URL} className="btn btn--emerald" target="_blank" rel="noreferrer">Quero avaliar meu caso <span className="arrow" /></a>
                 <a href="#manutencao" className="btn btn--ghost">Como funciona</a>
               </div>
+              <p className="hero__note">
+                <strong>{HERO_NOTE}</strong> {HERO_NOTE_DETAIL}
+              </p>
             </div>
           </div>
 
@@ -89,6 +97,9 @@ function HeroV2({ d }) {
                 <a href={WHATSAPP_URL} className="btn btn--emerald" target="_blank" rel="noreferrer">Quero avaliar meu caso <span className="arrow" /></a>
                 <a href="#manutencao" className="btn btn--ghost">Como funciona</a>
               </div>
+              <p className="hero__note">
+                <strong>{HERO_NOTE}</strong> {HERO_NOTE_DETAIL}
+              </p>
             </div>
             </div>
           </div>
@@ -566,7 +577,7 @@ function FooterV2() {
         <div className="site-footer__cols">
           <div className="site-footer__logo-col">
             <img
-              src="RC_Horizonta-Amarela-atualizada.png"
+              src="logo-redonda-atual.webp"
               alt="RC Odontologia Integrada"
               className="site-footer__logo"
             />

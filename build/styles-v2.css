@@ -102,12 +102,12 @@ img { max-width: 100%; display: block; }
 }
 .site-header__inner > .btn {
   justify-self: end;
-  background: #454E4C;
-  border-color: #454E4C;
+  background: #019D2B;
+  border-color: #019D2B;
 }
 .site-header__inner > .btn:hover {
-  background: #3b4341;
-  border-color: #3b4341;
+  background: #018724;
+  border-color: #018724;
 }
 .btn:hover { transform: translateY(-1px); }
 .btn--emerald { background: #01B431; border-color: #01B431; }
@@ -134,9 +134,7 @@ img { max-width: 100%; display: block; }
 /* ===== Header ===== */
 .site-header {
   position: sticky; top: 0; z-index: 50;
-  background: rgba(235, 231, 221, 0.88);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: #354944;
   border-bottom: 1px solid var(--line);
 }
 .site-header__inner {
@@ -155,9 +153,8 @@ img { max-width: 100%; display: block; }
 }
 .brand__logo {
   display: block;
-  width: clamp(110px, 12vw, 156px);
+  width: clamp(72px, 8vw, 104px);
   height: auto;
-  filter: brightness(0) saturate(100%) invert(28%) sepia(8%) saturate(512%) hue-rotate(116deg) brightness(93%) contrast(86%);
 }
 .site-nav { display: flex; gap: 4px; justify-self: center; }
 .site-nav a {
@@ -180,7 +177,7 @@ img { max-width: 100%; display: block; }
     font-size: 12px !important;
   }
   .brand__logo {
-    width: clamp(92px, 24vw, 128px);
+    width: clamp(64px, 20vw, 88px);
   }
 }
 @media (max-width: 520px) {
@@ -193,7 +190,7 @@ img { max-width: 100%; display: block; }
     font-size: 11px !important;
   }
   .brand__logo {
-    width: clamp(84px, 23vw, 112px);
+    width: clamp(58px, 19vw, 78px);
   }
 }
 
@@ -346,6 +343,17 @@ img { max-width: 100%; display: block; }
   max-width: 38ch;
 }
 .hero__ctas { display: flex; gap: 10px; flex-wrap: wrap; }
+.hero__note {
+  margin: 2px 0 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-2);
+  max-width: 54ch;
+}
+.hero__note strong {
+  color: var(--ink);
+  font-weight: 600;
+}
 
 .hero__photo {
   position: relative;
@@ -1592,7 +1600,7 @@ img { max-width: 100%; display: block; }
 /* ===== Footer ===== */
 .site-footer {
   padding: 64px 0 24px;
-  background: #3E4A47;
+  background: #354944;
   color: rgba(235,231,221,0.6);
 }
 .site-footer__cols {
@@ -1647,7 +1655,6 @@ img { max-width: 100%; display: block; }
   display: block;
   width: clamp(120px, 12vw, 170px);
   height: auto;
-  filter: brightness(0) saturate(100%) invert(95%) sepia(12%) saturate(309%) hue-rotate(12deg) brightness(104%) contrast(92%);
 }
 .site-footer h4 {
   font-family: var(--font-mono); font-size: 11px;
