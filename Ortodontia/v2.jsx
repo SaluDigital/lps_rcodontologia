@@ -3,6 +3,7 @@ const { useState: uS, useEffect: uE } = React;
 
 const stripIdx = (s) => (s || '').replace(/^\s*\d+\s*\/\s*/, '');
 const WHATSAPP_URL = "https://api.whatsapp.com/send?phone=5541998069893&text=Ol%C3%A1,%20vim%20do%20site%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es";
+const WAZE_URL = "https://www.waze.com/pt-BR/live-map/directions/br/pr/av.-ver.-toaldo-tulio,-2481?navigate=yes&utm_campaign=default&utm_source=waze_website&utm_medium=lm_share_location&to=place.ChIJk9g6A8Th3JQRxzFxEFpuJ2o";
 const REVIEWS_URL = "https://www.google.com/search?q=rc+odontologia+integrada#lrd=0x94dce1c3ec53d02f:0xc545acd00e31deaf,1";
 const HERO_NOTE = "RC Odontologia Integrada: desde 2004 cuidando de sorrisos em Curitiba.";
 const HERO_NOTE_DETAIL = "Mais de 20 anos de experiência na região de São Braz e Santa Felicidade.";
@@ -616,10 +617,68 @@ function FooterV2() {
   );
 }
 
+function AddressPopup({ open, onClose }) {
+  if (!open) return null;
+
+  return (
+    <div className="address-popup" role="dialog" aria-modal="true" aria-labelledby="address-popup-title">
+      <div className="address-popup__backdrop" onClick={onClose} />
+      <div className="address-popup__card">
+        <button
+          type="button"
+          className="address-popup__close"
+          onClick={onClose}
+          aria-label={"Fechar aviso de novo endere\u00e7o"}
+        >
+          <span />
+          <span />
+        </button>
+
+        <img
+          src="logo-redonda-atual.webp"
+          alt="RC Odontologia Integrada"
+          className="address-popup__logo"
+        />
+
+        <div className="address-popup__content">
+          <p className="address-popup__eyebrow"><span className="address-popup__pin" aria-hidden="true" /> {"Aten\u00e7\u00e3o!"}</p>
+          <h2 id="address-popup-title" className="address-popup__title">{"Estamos em novo endere\u00e7o!"}</h2>
+          <p className="address-popup__text">{"Espa\u00e7o maior, na mesma rua em frente a Rudegon"}</p>
+          <p className="address-popup__address">{"Av. Toaldo T\u00falio, 2481"}</p>
+        </div>
+
+        <a
+          href={WAZE_URL}
+          className="address-popup__cta"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 4.3c-4.07 0-7.37 2.87-7.37 6.42 0 1.47.58 2.82 1.56 3.89l-.62 2.57 2.67-.71a8.03 8.03 0 0 0 3.76.92c4.07 0 7.37-2.87 7.37-6.42S16.07 4.3 12 4.3Zm-3.37 6.56a1.15 1.15 0 1 1 0-2.3 1.15 1.15 0 0 1 0 2.3Zm6.74 0a1.15 1.15 0 1 1 0-2.3 1.15 1.15 0 0 1 0 2.3ZM12 15.1a4.4 4.4 0 0 1-3.22-1.4.6.6 0 0 1 .88-.82 3.2 3.2 0 0 0 4.68 0 .6.6 0 1 1 .88.82A4.4 4.4 0 0 1 12 15.1Z" fill="currentColor" />
+            <circle cx="8.1" cy="18.3" r="1.25" fill="currentColor" />
+            <circle cx="15.9" cy="18.3" r="1.25" fill="currentColor" />
+          </svg>
+          <span>Como chegar</span>
+        </a>
+      </div>
+    </div>
+  );
+}
+
 function AppV2() {
   const D = window.LP_DATA;
+  const [isAddressPopupOpen, setIsAddressPopupOpen] = uS(true);
+
+  uE(() => {
+    document.body.style.overflow = isAddressPopupOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isAddressPopupOpen]);
+
   return (
     <>
+      <AddressPopup open={isAddressPopupOpen} onClose={() => setIsAddressPopupOpen(false)} />
       <HeaderV2 />
       <main>
         <HeroV2 d={D.hero} />
