@@ -153,7 +153,6 @@ window.LP_DATA = {
       { name: "Dra. Pamela Antunes", cro: "CROPR: 33.119" },
       { name: "Dra. Cassia Gerber M. Brescovici", cro: "CROPR: 37.777" },
       { name: "Dr. Luiz Felipe de Mello Paredes", cro: "CROPR: 15.362" },
-      { name: "Dra. Bruna Caroline de Sousa Coura", cro: "CROPR: 38.893" },
       { name: "Dra.Bruna Campos Caporal", cro: "CROPR: 31.146" },
       { name: "Dra. Maria Fernanda Gbur Barbosa", cro: "CROPR: 38.397" },
     ],
@@ -664,7 +663,7 @@ function ClinicaV2({ d }) {
 }
 
 function ProfsV2({ d }) {
-  const images = Array.from({ length: 10 }, (_, i) => `dr${i + 1}.png`);
+  const images = [1, 2, 3, 4, 5, 6, 7, 9, 10].map((n) => `dr${n}.png`); // dr8 removida
   const teamMembers = [
     { name: "Dr. Rogério Soares A. Carneiro", cro: "CROPR: 15.598" },
     { name: "Dr. José Henrique Gonzaga de Oliveira", cro: "CROPR: 4.284" },
@@ -673,7 +672,6 @@ function ProfsV2({ d }) {
     { name: "Dra. Pamela Antunes", cro: "CROPR: 33.119" },
     { name: "Dra. Cassia Gerber M. Brescovici", cro: "CROPR: 37.777" },
     { name: "Dr. Luiz Felipe de Mello Paredes", cro: "CROPR: 15.362" },
-    { name: "Dra. Bruna Caroline de Sousa Coura", cro: "CROPR: 38.893" },
     { name: "Dra.Bruna Campos Caporal", cro: "CROPR: 31.146" },
     { name: "Dra. Maria Fernanda Gbur Barbosa", cro: "CROPR: 38.397" },
   ].map((member, i) => ({
